@@ -1,8 +1,6 @@
 package com.green.board;
 
-import com.green.board.model.BoardInsReq;
-import com.green.board.model.BoardSelOneRes;
-import com.green.board.model.BoardSelRes;
+import com.green.board.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +10,7 @@ import java.util.List;
     Cotroller의 역할 : 요청(Request)을 받고 응답(Response)처리하는 객체
                       로직처리는 하지 않는다.
     Annotation(애노테이션)
-    @Controller - 응답을 html (데이터로 만든 화면을 리턴)
+    @Controller - 응답을 html (데이터로 만든 화면을 응답)
     @RestController - 응답을 json (데이터만 응답)
 
     @RequestMapping - URL과 클래스 아래에 있는 Method 맵핑(연결)
@@ -108,6 +106,8 @@ import java.util.List;
 /*
     final 붙은 멤버필드 DI받을 수 있게 생성자를 만든다.
     애노테이션 생략하면 오버로딩된 생성자를 직접 만들어주면 된다.
+    DI(의존성 주입) : 외부에서 주소값이 들어오는 것
+    빈(bean) 등록 : 객체를 대신 만들어주는 ?
  */
 @RequiredArgsConstructor
 @RestController // 빈 등록 + 컨트롤러 임명, 빈 등록은 스프링 컨테이너가 직접 객체화를 한다.
@@ -133,5 +133,19 @@ public class BoardController {
     @GetMapping("{boardId}")
     public BoardSelOneRes selBoardOne(@PathVariable int boardId){
         return service.selBoardOne(boardId);
+    }
+
+    @PutMapping
+    public int updBoard(@RequestBody BoardUpdReq p){
+        System.out.println(p);
+        return service.updBoard(p);
+    }
+    /*
+    @ModelAttribute : FormData or Query String 데이터를 받을 수 있다.
+     */
+    @DeleteMapping
+    public int delBoard(@ModelAttribute BoardDelReq p){
+        System.out.println(p);
+        return service.delBoard(p);
     }
 }
